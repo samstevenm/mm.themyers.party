@@ -62,7 +62,7 @@ class PrepUbuntuStep(object):
         context["remainingspace"] = raw_input("Enter the remaining space %: ")
         print("**Remaining space is %{0}**".format(context["remainingspace"]))
         logging.info("Remaining space is %{0}".format(context["remainingspace"]))
-
+        wait_for_enter()
 
 class DumpMMSQLStep(object):
     def run(self, context):
@@ -126,7 +126,9 @@ class DownloadLatestVersionStep(object):
 class ExtractMMServerFilesStep(object):
     def run(self, context):
         print("Run:")
-        print("   tar -xf mattermost*.gz --transform='s,^[^/]\+,\0-upgrade,'")
+        print('''
+   tar -xf mattermost*.gz --transform='s,^[^/]\+,\0-upgrade,'
+              ''')
         wait_for_enter()
 
 class StopMMServerStep(object):
@@ -207,6 +209,7 @@ if __name__ == "__main__":
         ExplainStep(),
         SSHtoMMServerStep(),
         PrepUbuntuStep(),
+        DumpMMSQLStep(),
         WhereisMMStep(),
         ChangeDirStep(),
         ConfirmDirEmpty(),
